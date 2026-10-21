@@ -1,22 +1,4 @@
-/* Terrace Nine: base styles
-   Dusk rooftop palette: deep blue night, warm string-light amber. */
-
-:root {
-  --night: #14182b;
-  --night-soft: #1f2540;
-  --panel: #262c4b;
-  --text: #f1ece2;
-  --muted: #a7a9c0;
-  --amber: #f2a93b;
-
-  --seat-available: #4f9d8f;
-  --seat-inspected: #f2a93b;
-  --seat-cart: #e0607e;
-  --seat-unavailable: #4a4d63;
-
-  --radius: 10px;
-  --gap: 1rem;
-}
+/* Terrace Nine styles */
 
 * {
   box-sizing: border-box;
@@ -24,98 +6,101 @@
 
 body {
   margin: 0;
-  font-family: "Segoe UI", system-ui, sans-serif;
-  background: var(--night);
-  color: var(--text);
+  font-family: Arial, sans-serif;
   line-height: 1.5;
+  background-color: #14182b;
+  color: #f1ece2;
 }
 
-.site-header {
-  padding: 1.25rem 1.5rem 0.5rem;
+header {
+  padding: 1rem 1.5rem 0;
 }
 
-.site-header h1 {
+h1 {
   margin: 0;
-  font-size: 1.8rem;
-  letter-spacing: 0.04em;
-  color: var(--amber);
+  color: #f2a93b;
 }
 
-.tagline {
-  margin: 0.25rem 0 0;
-  color: var(--muted);
-}
-
-/* Page layout: map on the left, details and cart on the right */
-.layout {
-  display: grid;
-  grid-template-columns: 1fr 320px;
-  gap: var(--gap);
-  padding: var(--gap) 1.5rem;
-}
-
-.map-panel,
-.side-panel section {
-  background: var(--panel);
-  border-radius: var(--radius);
-  padding: var(--gap);
-}
-
-.side-panel {
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap);
-}
-
-.side-panel h2 {
-  margin: 0 0 0.5rem;
+h2 {
+  margin-top: 0;
   font-size: 1.1rem;
 }
 
-.map-viewport {
-  position: relative;
-  height: 460px;
-  overflow: hidden;
-  background: var(--night-soft);
-  border-radius: var(--radius);
+/* page layout: one column on phones, map and side panel next to each other on wider screens */
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
 }
 
-.screen-label {
-  text-align: center;
-  margin: 0.75rem auto 0;
+.map-section,
+.side section {
+  background-color: #262c4b;
+  border-radius: 0.6rem;
+  padding: 1rem;
+}
+
+.side {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* the map */
+.map-window {
+  height: 36rem;
+  overflow: auto;
+  background-color: #1f2540;
+  border-radius: 0.6rem;
+}
+
+/* the seats are placed inside this box with left and top */
+#venue-map {
+  position: relative;
+  width: 800px;
+  height: 510px;
+}
+
+.seat {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  border-radius: 0.3rem;
+  background-color: #4f9d8f;
+  cursor: pointer;
+}
+
+.seat:hover {
+  background-color: #6cc2b3;
+}
+
+.seat:focus {
+  outline: 2px solid #ffffff;
+}
+
+.screen {
   width: 60%;
-  padding: 0.35rem;
+  margin: 0.75rem auto 0;
+  padding: 0.3rem;
+  text-align: center;
   letter-spacing: 0.3em;
   font-size: 0.8rem;
-  background: #d9d4c7;
-  color: var(--night);
-  border-radius: 4px;
+  background-color: #d9d4c7;
+  color: #14182b;
+  border-radius: 0.3rem;
 }
 
-.placeholder,
-.empty-note {
-  color: var(--muted);
-  font-style: italic;
-}
-
-.placeholder {
-  text-align: center;
-  margin-top: 4rem;
-}
-
-.cart-total {
-  font-weight: 600;
-  margin-bottom: 0;
-}
-
-/* Legend */
+/* legend under the map */
 .legend {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem 1.25rem;
-  list-style: none;
+  margin: 1rem 0 0;
   padding: 0;
-  margin: var(--gap) 0 0;
+  list-style: none;
   font-size: 0.9rem;
 }
 
@@ -123,17 +108,41 @@ body {
   display: inline-block;
   width: 0.9rem;
   height: 0.9rem;
-  border-radius: 3px;
-  vertical-align: -2px;
+  border-radius: 0.2rem;
 }
 
-.swatch-available { background: var(--seat-available); }
-.swatch-inspected { background: var(--seat-inspected); }
-.swatch-cart { background: var(--seat-cart); }
-.swatch-unavailable { background: var(--seat-unavailable); }
+.swatch-available {
+  background-color: #4f9d8f;
+}
 
-.site-footer {
+.swatch-inspected {
+  background-color: #f2a93b;
+}
+
+.swatch-cart {
+  background-color: #e0607e;
+}
+
+.swatch-unavailable {
+  background-color: #4a4d63;
+}
+
+footer {
   padding: 0.5rem 1.5rem 1.5rem;
-  color: var(--muted);
   font-size: 0.85rem;
+  color: #a7a9c0;
+}
+
+@media (min-width: 48rem) {
+  .page {
+    flex-direction: row;
+  }
+
+  .map-section {
+    flex: 1;
+  }
+
+  .side {
+    width: 20rem;
+  }
 }

@@ -81,6 +81,25 @@ h2 {
   outline: 2px solid #ffffff;
 }
 
+/* the seat being looked at */
+.seat.inspected {
+  background-color: #f2a93b;
+}
+
+/* sold seats */
+.seat.unavailable,
+.seat.unavailable:hover {
+  background-color: #4a4d63;
+  cursor: not-allowed;
+}
+
+/* the seat details list on the right */
+#seat-info {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
 .screen {
   width: 60%;
   margin: 0.75rem auto 0;

@@ -47,12 +47,47 @@ h2 {
   gap: 1rem;
 }
 
+/* zoom and move buttons above the map */
+.map-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.map-controls button {
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 0.3rem;
+  background-color: #f2a93b;
+  color: #14182b;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.map-controls button:hover {
+  background-color: #ffc468;
+}
+
+.map-controls button:disabled {
+  background-color: #4a4d63;
+  color: #a7a9c0;
+  cursor: not-allowed;
+}
+
 /* the map */
 .map-window {
   height: 36rem;
   overflow: auto;
   background-color: #1f2540;
   border-radius: 0.6rem;
+}
+
+/* the screen and the seats together, this is the part that gets zoomed */
+#map-content {
+  width: 800px;
+  transform-origin: top left;
 }
 
 /* the seats are placed inside this box with left and top */

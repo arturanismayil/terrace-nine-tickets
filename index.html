@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="css/style.css">
   <script src="js/venue-data.js" defer></script>
   <script src="js/map.js" defer></script>
+  <script src="js/controls.js" defer></script>
 </head>
 <body>
   <header>
@@ -19,12 +20,18 @@
       <h2>Seating map</h2>
 
       <div class="map-controls">
-        <!-- zoom and move buttons will go here -->
+        <button type="button" id="zoom-in">Zoom in</button>
+        <button type="button" id="zoom-out">Zoom out</button>
+        <button type="button" id="reset-view">Reset view</button>
+        <span>Zoom: <span id="zoom-level">100%</span></span>
+        <!-- move buttons will go here -->
       </div>
 
       <div class="map-window">
-        <p class="screen">SCREEN</p>
-        <div id="venue-map"></div>
+        <div id="map-content">
+          <p class="screen">SCREEN</p>
+          <div id="venue-map"></div>
+        </div>
       </div>
 
       <ul class="legend">

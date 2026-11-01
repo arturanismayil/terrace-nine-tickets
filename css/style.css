@@ -79,7 +79,7 @@ h2 {
 /* the map */
 .map-window {
   height: 36rem;
-  overflow: auto;
+  overflow: hidden;
   background-color: #1f2540;
   border-radius: 0.6rem;
 }

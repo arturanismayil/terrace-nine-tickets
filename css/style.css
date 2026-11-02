@@ -121,6 +121,12 @@ h2 {
   background-color: #f2a93b;
 }
 
+/* seats that are in the cart */
+.seat.in-cart,
+.seat.in-cart:hover {
+  background-color: #e0607e;
+}
+
 /* sold seats */
 .seat.unavailable,
 .seat.unavailable:hover {
@@ -199,4 +205,41 @@ footer {
   .side {
     width: 20rem;
   }
+}
+
+/* Add to cart button and the cart list */
+#add-to-cart,
+#cart-list button {
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 0.3rem;
+  background-color: #f2a93b;
+  color: #14182b;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+#add-to-cart {
+  margin-top: 0.75rem;
+}
+
+#add-to-cart:disabled {
+  background-color: #4a4d63;
+  color: #a7a9c0;
+  cursor: not-allowed;
+}
+
+#cart-list {
+  margin: 0 0 0.75rem;
+  padding: 0;
+  list-style: none;
+}
+
+#cart-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid #3a4168;
 }

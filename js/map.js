@@ -18,6 +18,10 @@ const rowLetters = 'ABCDEFGH';
 // the seat button that is being looked at right now (none at the start)
 let inspectedSeat = null;
 
+// the details of that seat, like { id: 'B-D-07', zone: 'Deck centre', price: 14 }
+// this is what "Add to cart" puts in the cart
+let inspectedTicket = null;
+
 // builds the id for one seat, for example B-D-07
 function makeSeatId(zone, rowNumber, seatNumber) {
   let number = seatNumber;
@@ -45,10 +49,14 @@ function inspectSeat(seat, seatId, zone, rowNumber, seatNumber) {
     inspectedSeat.classList.remove('inspected');
   }
 
-  seat.classList.add('inspected');
   inspectedSeat = seat;
+  inspectedTicket = { id: seatId, zone: zone.name, price: zone.price };
 
+  // these two functions are in cart.js
+  // refreshSeat picks the colour (amber, or pink if the seat is already in the cart)
+  refreshSeat(seatId);
   showSeatDetails(seatId, zone, rowNumber, seatNumber);
+  updateAddButton();
 }
 
 // makes one seat button and puts it on the map

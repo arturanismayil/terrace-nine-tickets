@@ -6,6 +6,9 @@ const cartMessage = document.getElementById('cart-message');
 const cartList = document.getElementById('cart-list');
 const cartTotal = document.getElementById('cart-total');
 
+// the name the cart is saved under in localStorage
+const storageKey = 'terraceNineCart';
+
 // every ticket in the cart looks like { id: 'B-D-07', zone: 'Deck centre', price: 14 }
 let cart = [];
 
@@ -78,6 +81,62 @@ function updateCart() {
   cartMessage.hidden = cart.length > 0;
 
   updateAddButton();
+  saveCart();
+}
+
+// saves the cart in the browser, so it is still there after a refresh
+function saveCart() {
+  localStorage.setItem(storageKey, JSON.stringify(cart));
+}
+
+// gets the saved seat ids back out of localStorage
+// returns an empty list if nothing was saved or the saved text is broken
+function readSavedIds() {
+  const savedText = localStorage.getItem(storageKey);
+  if (savedText === null) {
+    return [];
+  }
+
+  try {
+    const saved = JSON.parse(savedText);
+    if (!Array.isArray(saved)) {
+      return [];
+    }
+    return saved.map(ticket => ticket.id);
+  } catch (error) {
+    return [];
+  }
+}
+
+// builds a ticket for a saved seat id, using the venue data
+// returns null if the seat is not good any more (it does not exist or it was sold)
+function makeTicketFromId(seatId) {
+  const seat = document.getElementById(seatId);
+  if (seat === null || unavailableSeats.includes(seatId)) {
+    return null;
+  }
+
+  // the zone is the first part of the id, for example 'B' in 'B-D-07'
+  const zoneId = seatId.split('-')[0];
+  const zone = zones.find(zone => zone.id === zoneId);
+  if (zone === undefined) {
+    return null;
+  }
+
+  return { id: seatId, zone: zone.name, price: zone.price };
+}
+
+// puts the saved seats back in the cart and on the map
+function loadCart() {
+  for (const seatId of readSavedIds()) {
+    const ticket = makeTicketFromId(seatId);
+
+    // skip bad seats and seats that are already in the cart twice
+    if (ticket !== null && !isInCart(seatId)) {
+      cart.push(ticket);
+      refreshSeat(seatId);
+    }
+  }
 }
 
 // puts the seat being looked at into the cart
@@ -105,4 +164,5 @@ function removeFromCart(seatId) {
 
 addButton.addEventListener('click', addToCart);
 
+loadCart();
 updateCart();

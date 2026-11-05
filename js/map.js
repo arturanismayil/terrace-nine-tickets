@@ -45,18 +45,25 @@ function showSeatDetails(seatId, zone, rowNumber, seatNumber) {
 
 // marks a seat as the one being looked at, and un-marks the one before it
 function inspectSeat(seat, seatId, zone, rowNumber, seatNumber) {
-  if (inspectedSeat !== null) {
-    inspectedSeat.classList.remove('inspected');
-  }
+  const previousSeat = inspectedSeat;
 
   inspectedSeat = seat;
   inspectedTicket = { id: seatId, zone: zone.name, price: zone.price };
 
-  // these two functions are in cart.js
-  // refreshSeat picks the colour (amber, or pink if the seat is already in the cart)
+  // refreshSeat and updateAddButton are in cart.js
+  // refreshSeat sets the colour and label of a seat (amber, or pink if it is in the cart)
+  if (previousSeat !== null) {
+    previousSeat.classList.remove('inspected');
+    refreshSeat(previousSeat.id);
+  }
   refreshSeat(seatId);
   showSeatDetails(seatId, zone, rowNumber, seatNumber);
   updateAddButton();
+
+  // move the keyboard focus to the Add to cart button, so a keyboard user does
+  // not have to tab through all the other seats to reach it
+  // (this does nothing if the button is greyed out because the seat is in the cart)
+  addButton.focus({ preventScroll: true });
 }
 
 // makes one seat button and puts it on the map
@@ -76,9 +83,12 @@ function drawSeat(zone, rowNumber, seatNumber) {
     // sold seat: grey, and it cannot be clicked
     seat.classList.add('unavailable');
     seat.disabled = true;
+    seat.textContent = '\u00d7';
     seat.setAttribute('aria-label', `Seat ${seatId}, already sold`);
   } else {
-    seat.setAttribute('aria-label', `Seat ${seatId}, ${zone.name}, ${zone.price} AZN`);
+    // the label is kept in data-label, so cart.js can add ", in your cart" to it
+    seat.dataset.label = `Seat ${seatId}, ${zone.name}, ${zone.price} AZN`;
+    seat.setAttribute('aria-label', seat.dataset.label);
     seat.addEventListener('click', function () {
       inspectSeat(seat, seatId, zone, rowNumber, seatNumber);
     });

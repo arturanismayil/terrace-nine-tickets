@@ -20,18 +20,26 @@ function isInCart(seatId) {
 
 // gives one seat on the map the right colour
 // pink if it is in the cart, amber if it is the seat being looked at
+// it also sets a tick and the label that a screen reader reads out
 function refreshSeat(seatId) {
   const seat = document.getElementById(seatId);
+  let label = seat.dataset.label;
 
   if (isInCart(seatId)) {
     seat.classList.add('in-cart');
     seat.classList.remove('inspected');
+    seat.textContent = '\u2713';
+    label = label + ', in your cart';
   } else {
     seat.classList.remove('in-cart');
+    seat.textContent = '';
     if (inspectedTicket !== null && inspectedTicket.id === seatId) {
       seat.classList.add('inspected');
+      label = label + ', selected';
     }
   }
+
+  seat.setAttribute('aria-label', label);
 }
 
 // shows or hides the Add to cart button for the seat being looked at
@@ -86,24 +94,30 @@ function updateCart() {
 
 // saves the cart in the browser, so it is still there after a refresh
 function saveCart() {
-  localStorage.setItem(storageKey, JSON.stringify(cart));
+  try {
+    localStorage.setItem(storageKey, JSON.stringify(cart));
+  } catch (error) {
+    // the browser does not allow saving (for example in a private window)
+    // the cart still works, it just will not be remembered
+  }
 }
 
 // gets the saved seat ids back out of localStorage
 // returns an empty list if nothing was saved or the saved text is broken
 function readSavedIds() {
-  const savedText = localStorage.getItem(storageKey);
-  if (savedText === null) {
-    return [];
-  }
-
   try {
+    const savedText = localStorage.getItem(storageKey);
+    if (savedText === null) {
+      return [];
+    }
+
     const saved = JSON.parse(savedText);
     if (!Array.isArray(saved)) {
       return [];
     }
     return saved.map(ticket => ticket.id);
   } catch (error) {
+    // nothing saved, saving is blocked, or the saved text is broken
     return [];
   }
 }
@@ -153,6 +167,9 @@ function addToCart() {
   cart.push(inspectedTicket);
   refreshSeat(inspectedTicket.id);
   updateCart();
+
+  // the button is greyed out now, so give the focus back to the seat
+  inspectedSeat.focus({ preventScroll: true });
 }
 
 // takes a seat out of the cart and changes its colour on the map

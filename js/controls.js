@@ -109,6 +109,13 @@ moveRightButton.addEventListener('click', function () {
   moveMap(moveStep, 0);
 });
 
+// if you tab to a seat that is out of view, the browser scrolls the window to it
+// and the map jumps, so we put the scroll back to 0 (the buttons do the moving)
+mapWindow.addEventListener('scroll', function () {
+  mapWindow.scrollLeft = 0;
+  mapWindow.scrollTop = 0;
+});
+
 // if the browser window changes size, make sure the map is still inside it
 window.addEventListener('resize', updateMap);
 

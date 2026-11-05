@@ -117,6 +117,23 @@ h2 {
   outline: 2px solid #ffffff;
 }
 
+/* the tick and cross written on some seats */
+.seat {
+  font-size: 0.8rem;
+  line-height: 1;
+  color: #14182b;
+}
+
+.seat.unavailable {
+  color: #a7a9c0;
+}
+
+/* a clear outline for keyboard users on every button */
+button:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 2px;
+}
+
 /* the seat being looked at */
 .seat.inspected {
   background-color: #f2a93b;

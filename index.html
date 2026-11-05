@@ -20,7 +20,7 @@
     <section class="map-section">
       <h2>Seating map</h2>
 
-      <div class="map-controls">
+      <div class="map-controls" role="group" aria-label="Map controls">
         <button type="button" id="zoom-in">Zoom in</button>
         <button type="button" id="zoom-out">Zoom out</button>
         <button type="button" id="reset-view">Reset view</button>
@@ -38,11 +38,11 @@
         </div>
       </div>
 
-      <ul class="legend">
+      <ul class="legend" aria-label="Seat colours">
         <li><span class="swatch swatch-available"></span> Available</li>
         <li><span class="swatch swatch-inspected"></span> Selected</li>
-        <li><span class="swatch swatch-cart"></span> In your cart</li>
-        <li><span class="swatch swatch-unavailable"></span> Unavailable</li>
+        <li><span class="swatch swatch-cart"></span> In your cart (&check;)</li>
+        <li><span class="swatch swatch-unavailable"></span> Unavailable (&times;)</li>
       </ul>
     </section>
 
@@ -50,7 +50,7 @@
       <section>
         <h2>Seat details</h2>
         <p id="seat-message">Click a seat to see its details.</p>
-        <ul id="seat-info" hidden>
+        <ul id="seat-info" aria-live="polite" hidden>
           <li>Seat: <strong id="info-seat"></strong></li>
           <li>Zone: <span id="info-zone"></span></li>
           <li>Row: <span id="info-row"></span></li>
@@ -64,7 +64,7 @@
         <h2>Your cart</h2>
         <p id="cart-message">No tickets yet.</p>
         <ul id="cart-list"></ul>
-        <p>Total: <span id="cart-total">0</span> AZN</p>
+        <p aria-live="polite">Total: <span id="cart-total">0</span> AZN</p>
       </section>
     </aside>
   </main>

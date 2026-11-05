@@ -13,7 +13,7 @@ body {
 }
 
 header {
-  padding: 1rem 1.5rem 0;
+  padding: 1rem 1rem 0;
 }
 
 h1 {
@@ -31,7 +31,7 @@ h2 {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  padding: 1rem 1.5rem;
+  padding: 1rem;
 }
 
 .map-section,
@@ -57,6 +57,7 @@ h2 {
 }
 
 .map-controls button {
+  min-height: 2.75rem;
   padding: 0.4rem 0.8rem;
   border: none;
   border-radius: 0.3rem;
@@ -78,7 +79,7 @@ h2 {
 
 /* the map */
 .map-window {
-  height: 36rem;
+  height: 20rem;
   overflow: hidden;
   background-color: #1f2540;
   border-radius: 0.6rem;
@@ -188,7 +189,7 @@ h2 {
 }
 
 footer {
-  padding: 0.5rem 1.5rem 1.5rem;
+  padding: 0.5rem 1rem 1.5rem;
   font-size: 0.85rem;
   color: #a7a9c0;
 }
@@ -200,6 +201,11 @@ footer {
 
   .map-section {
     flex: 1;
+    min-width: 0;
+  }
+
+  .map-window {
+    height: 36rem;
   }
 
   .side {
@@ -210,6 +216,7 @@ footer {
 /* Add to cart button and the cart list */
 #add-to-cart,
 #cart-list button {
+  min-height: 2.75rem;
   padding: 0.4rem 0.8rem;
   border: none;
   border-radius: 0.3rem;

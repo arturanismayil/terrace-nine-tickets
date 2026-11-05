@@ -15,7 +15,7 @@ const moveDownButton = document.getElementById('move-down');
 const moveLeftButton = document.getElementById('move-left');
 const moveRightButton = document.getElementById('move-right');
 
-const minZoom = 0.5;
+const minZoom = 0.25;
 const maxZoom = 2;
 const zoomStep = 0.25;
 
@@ -77,11 +77,18 @@ function moveMap(changeX, changeY) {
   updateMap();
 }
 
-// back to normal size, with the map in the middle of the window
+// the zoom where the whole width of the map fits in the window
+// on a big screen this is 1 (normal size), on a phone it is smaller
+function fitZoom() {
+  const fit = mapWindow.clientWidth / mapContent.offsetWidth;
+  return keepBetween(fit, minZoom, 1);
+}
+
+// back to the starting view: the whole map visible, in the middle of the window
 function resetView() {
-  zoom = 1;
-  moveX = (mapWindow.clientWidth - mapContent.offsetWidth) / 2;
-  moveY = (mapWindow.clientHeight - mapContent.offsetHeight) / 2;
+  zoom = fitZoom();
+  moveX = (mapWindow.clientWidth - mapContent.offsetWidth * zoom) / 2;
+  moveY = (mapWindow.clientHeight - mapContent.offsetHeight * zoom) / 2;
   updateMap();
 }
 

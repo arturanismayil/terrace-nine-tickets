@@ -19,6 +19,9 @@ const minZoom = 0.25;
 const maxZoom = 2;
 const zoomStep = 0.25;
 
+// how fast the mouse wheel zooms (a smaller number is slower)
+const wheelSpeed = 0.0005;
+
 // how many pixels the map moves with one click
 const moveStep = 60;
 
@@ -60,14 +63,30 @@ function updateMap() {
   zoomOutButton.disabled = zoom <= minZoom;
 }
 
-function zoomIn() {
-  zoom = Math.min(zoom + zoomStep, maxZoom);
+// changes the zoom, but keeps the spot at (pointX, pointY) where it is on the screen
+// pointX and pointY are measured from the top-left corner of the map window
+function zoomAround(newZoom, pointX, pointY) {
+  const limitedZoom = keepBetween(newZoom, minZoom, maxZoom);
+
+  // which spot of the map is under that point (in map units, before zooming)
+  const mapX = (pointX - moveX) / zoom;
+  const mapY = (pointY - moveY) / zoom;
+
+  zoom = limitedZoom;
+
+  // move the map so the same spot is under that point again
+  moveX = pointX - mapX * zoom;
+  moveY = pointY - mapY * zoom;
   updateMap();
 }
 
+// the zoom buttons zoom around the middle of the window
+function zoomIn() {
+  zoomAround(zoom + zoomStep, mapWindow.clientWidth / 2, mapWindow.clientHeight / 2);
+}
+
 function zoomOut() {
-  zoom = Math.max(zoom - zoomStep, minZoom);
-  updateMap();
+  zoomAround(zoom - zoomStep, mapWindow.clientWidth / 2, mapWindow.clientHeight / 2);
 }
 
 // the map moves in the direction of the button
@@ -108,6 +127,23 @@ moveLeftButton.addEventListener('click', function () {
 moveRightButton.addEventListener('click', function () {
   moveMap(moveStep, 0);
 });
+
+// zoom with the mouse wheel, around the place where the mouse is
+mapWindow.addEventListener('wheel', function (event) {
+  // stop the whole page from scrolling while the mouse is over the map
+  event.preventDefault();
+
+  const box = mapWindow.getBoundingClientRect();
+  const pointX = event.clientX - box.left;
+  const pointY = event.clientY - box.top;
+
+  // the harder you scroll, the more it zooms
+  // we cap the amount, so one fast flick cannot jump the whole way
+  const amount = keepBetween(event.deltaY, -100, 100);
+
+  // wheel up (negative) zooms in, wheel down zooms out
+  zoomAround(zoom * (1 - amount * wheelSpeed), pointX, pointY);
+}, { passive: false });
 
 // if you tab to a seat that is out of view, the browser scrolls the window to it
 // and the map jumps, so we put the scroll back to 0 (the buttons do the moving)

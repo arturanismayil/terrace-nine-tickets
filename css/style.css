@@ -81,8 +81,15 @@ h2 {
 .map-window {
   height: 20rem;
   overflow: hidden;
+  cursor: grab;
+  user-select: none;
   background-color: #1f2540;
   border-radius: 0.6rem;
+}
+
+/* while the map is being dragged */
+.map-window.dragging {
+  cursor: grabbing;
 }
 
 /* the screen and the seats together, this is the part that gets zoomed */

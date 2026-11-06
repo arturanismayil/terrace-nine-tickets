@@ -145,6 +145,69 @@ mapWindow.addEventListener('wheel', function (event) {
   zoomAround(zoom * (1 - amount * wheelSpeed), pointX, pointY);
 }, { passive: false });
 
+// drag the map with the mouse
+let mouseIsDown = false;  // is the left mouse button held down on the map?
+let dragMoved = false;    // has the mouse moved far enough to count as a drag?
+let startMouseX = 0;      // where the mouse button went down
+let startMouseY = 0;
+let lastMouseX = 0;
+let lastMouseY = 0;
+
+mapWindow.addEventListener('mousedown', function (event) {
+  // only the left mouse button
+  if (event.button !== 0) {
+    return;
+  }
+
+  mouseIsDown = true;
+  dragMoved = false;
+  startMouseX = event.clientX;
+  startMouseY = event.clientY;
+  lastMouseX = event.clientX;
+  lastMouseY = event.clientY;
+
+  // stops the browser from selecting text while we drag
+  event.preventDefault();
+});
+
+// we listen on the whole page, so the drag keeps working if the mouse leaves the window
+document.addEventListener('mousemove', function (event) {
+  if (!mouseIsDown) {
+    return;
+  }
+
+  // moving less than 5 pixels is still a click, not a drag
+  const farX = Math.abs(event.clientX - startMouseX);
+  const farY = Math.abs(event.clientY - startMouseY);
+  if (!dragMoved && farX < 5 && farY < 5) {
+    return;
+  }
+
+  if (!dragMoved) {
+    dragMoved = true;
+    mapWindow.classList.add('dragging');
+  }
+
+  moveMap(event.clientX - lastMouseX, event.clientY - lastMouseY);
+  lastMouseX = event.clientX;
+  lastMouseY = event.clientY;
+});
+
+document.addEventListener('mouseup', function () {
+  mouseIsDown = false;
+  mapWindow.classList.remove('dragging');
+});
+
+// after a drag, the browser also sends a click to the seat under the mouse.
+// We catch that click first and throw it away, so dragging never selects a seat.
+mapWindow.addEventListener('click', function (event) {
+  if (dragMoved) {
+    event.stopPropagation();
+    event.preventDefault();
+    dragMoved = false;
+  }
+}, true);
+
 // if you tab to a seat that is out of view, the browser scrolls the window to it
 // and the map jumps, so we put the scroll back to 0 (the buttons do the moving)
 mapWindow.addEventListener('scroll', function () {

@@ -30,10 +30,11 @@ the beanbags and the deckchairs.
 |------|----------------|-----------------|-------|-------|
 | A    | Beanbags       | 3 x 10          | 30    | 9     |
 | B    | Deck centre    | 8 x 14          | 112   | 14    |
-| C    | Deck sides     | 8 x 5 (two)     | 80    | 11    |
+| C1   | Deck left      | 8 x 5           | 40    | 11    |
+| C2   | Deck right     | 8 x 5           | 40    | 11    |
 | D    | Sofa lounge    | 2 x 8           | 16    | 22    |
 
-Total: about 238 seats.
+Total: 238 seats.
 
 Reasoning behind the prices: beanbags are cheap because you sit low and close
 to the screen; the centre deckchairs have the best view of the screen; the sides
@@ -52,7 +53,7 @@ row D, seat 7.
 - in cart
 - unavailable (already sold; a fixed set of seats marked in the data)
 
-## Decisions still open
+## Decisions
 
-- exact pixel size of a seat on the map
-- how many seats to mark as unavailable (aiming for around 15%)
+- a seat is 24 pixels wide, with a 6 pixel gap (30 units per seat on the map)
+- 33 seats are marked as sold, which is about 14% of the venue

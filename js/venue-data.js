@@ -1,8 +1,17 @@
-// Seating data for Terrace Nine.
-// Each zone is one block of seats. The map gets drawn from this list.
-// x and y are where the top-left corner of the block sits on the map.
+/* 
 
-// every seat takes up 30 units on the map (24 for the seat, 6 for the gap)
+Venue data for Terrace Nine, my made-up rooftop cinema.
+The whole seating map is built from this file, so no seat is typed out by hand. 
+If I change a number here, the map changes too.
+
+ Each zone is one block of seats: how many rows, how many seats in a row,the price, 
+ and where the block sits on the map. x and y are the distance from the top-left corner of the map.
+
+ How much room one seat takes on the map: the seat is 24 wide and I leave
+ 6 empty, so the seats don't touch each other.
+
+ */
+
 const seatSpace = 30;
 
 const zones = [
